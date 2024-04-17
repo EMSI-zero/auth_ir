@@ -356,6 +356,7 @@ type SmsProviderConfiguration struct {
 	Messagebird  MessagebirdProviderConfiguration  `json:"messagebird"`
 	Textlocal    TextlocalProviderConfiguration    `json:"textlocal"`
 	Vonage       VonageProviderConfiguration       `json:"vonage"`
+	Kavenegar    KavenegarProviderConfiguration    `json:"kavenegar"`
 }
 
 func (c *SmsProviderConfiguration) GetTestOTP(phone string, now time.Time) (string, bool) {
@@ -394,6 +395,11 @@ type VonageProviderConfiguration struct {
 	ApiKey    string `json:"api_key" split_words:"true"`
 	ApiSecret string `json:"api_secret" split_words:"true"`
 	From      string `json:"from" split_words:"true"`
+}
+
+type KavenegarProviderConfiguration struct {
+	ApiKey string `json:"api_key" split_words:"true"`
+	Sender string `json:"sender" split_words:"true"`
 }
 
 type CaptchaConfiguration struct {
@@ -835,6 +841,19 @@ func (t *VonageProviderConfiguration) Validate() error {
 	}
 	if t.From == "" {
 		return errors.New("missing Vonage 'from' parameter")
+	}
+	return nil
+}
+
+func (t *KavenegarProviderConfiguration) Validate() error {
+	if t.ApiKey == "" {
+		return errors.New("missing Kavenegar API key")
+	}
+	if t.ApiKey == "" {
+		return errors.New("missing Kavenegar API secret")
+	}
+	if t.Sender == "" {
+		return errors.New("missing Kavenegar 'from' parameter")
 	}
 	return nil
 }
