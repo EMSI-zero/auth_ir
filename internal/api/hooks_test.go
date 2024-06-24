@@ -6,14 +6,15 @@ import (
 	"testing"
 
 	"errors"
-	"github.com/gofrs/uuid"
+	"net/http/httptest"
+
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
 	"github.com/supabase/auth/internal/conf"
 	"github.com/supabase/auth/internal/hooks"
+	"github.com/supabase/auth/internal/models"
 	"github.com/supabase/auth/internal/storage"
-	"net/http/httptest"
 
 	"gopkg.in/h2non/gock.v1"
 )
@@ -22,8 +23,9 @@ var handleApiRequest func(*http.Request) (*http.Response, error)
 
 type HooksTestSuite struct {
 	suite.Suite
-	API    *API
-	Config *conf.GlobalConfiguration
+	API      *API
+	Config   *conf.GlobalConfiguration
+	TestUser *models.User
 }
 
 type MockHttpClient struct {
@@ -47,13 +49,22 @@ func TestHooks(t *testing.T) {
 	suite.Run(t, ts)
 }
 
+func (ts *HooksTestSuite) SetupTest() {
+	models.TruncateAll(ts.API.db)
+	u, err := models.NewUser("123456789", "testemail@gmail.com", "securetestpassword", ts.Config.JWT.Aud, nil)
+	require.NoError(ts.T(), err, "Error creating test user model")
+	require.NoError(ts.T(), ts.API.db.Create(u), "Error saving new test user")
+	ts.TestUser = u
+}
+
 func (ts *HooksTestSuite) TestRunHTTPHook() {
 	defer gock.OffAll()
 
 	input := hooks.SendSMSInput{
-		UserID: uuid.Must(uuid.NewV4()),
-		Phone:  "1234567890",
-		OTP:    "123456",
+		User: ts.TestUser,
+		SMS: hooks.SMS{
+			OTP: "123456",
+		},
 	}
 	successOutput := hooks.SendSMSOutput{Success: true}
 	testURL := "http://localhost:54321/functions/v1/custom-sms-sender"
@@ -95,13 +106,13 @@ func (ts *HooksTestSuite) TestRunHTTPHook() {
 
 			}
 
-			var output hooks.SendSMSOutput
 			req, _ := http.NewRequest("POST", ts.Config.Hook.SendSMS.URI, nil)
-			body, err := ts.API.runHTTPHook(req, ts.Config.Hook.SendSMS, &input, &output)
+			body, err := ts.API.runHTTPHook(req, ts.Config.Hook.SendSMS, &input)
 
 			if !tc.expectError {
 				require.NoError(ts.T(), err)
 				if body != nil {
+					var output hooks.SendSMSOutput
 					require.NoError(ts.T(), json.Unmarshal(body, &output))
 					require.True(ts.T(), output.Success)
 				}
@@ -117,9 +128,10 @@ func (ts *HooksTestSuite) TestShouldRetryWithRetryAfterHeader() {
 	defer gock.OffAll()
 
 	input := hooks.SendSMSInput{
-		UserID: uuid.Must(uuid.NewV4()),
-		Phone:  "1234567890",
-		OTP:    "123456",
+		User: ts.TestUser,
+		SMS: hooks.SMS{
+			OTP: "123456",
+		},
 	}
 	successOutput := hooks.SendSMSOutput{Success: true}
 	testURL := "http://localhost:54321/functions/v1/custom-sms-sender"
@@ -138,15 +150,14 @@ func (ts *HooksTestSuite) TestShouldRetryWithRetryAfterHeader() {
 		Reply(http.StatusOK).
 		JSON(successOutput).SetHeader("content-type", "application/json")
 
-	var output hooks.SendSMSOutput
-
 	// Simulate the original HTTP request which triggered the hook
 	req, err := http.NewRequest("POST", "http://localhost:9998/otp", nil)
 	require.NoError(ts.T(), err)
 
-	body, err := ts.API.runHTTPHook(req, ts.Config.Hook.SendSMS, &input, &output)
+	body, err := ts.API.runHTTPHook(req, ts.Config.Hook.SendSMS, &input)
 	require.NoError(ts.T(), err)
 
+	var output hooks.SendSMSOutput
 	err = json.Unmarshal(body, &output)
 	require.NoError(ts.T(), err, "Unmarshal should not fail")
 	require.True(ts.T(), output.Success, "Expected success on retry")
@@ -159,9 +170,10 @@ func (ts *HooksTestSuite) TestShouldReturnErrorForNonJSONContentType() {
 	defer gock.OffAll()
 
 	input := hooks.SendSMSInput{
-		UserID: uuid.Must(uuid.NewV4()),
-		Phone:  "1234567890",
-		OTP:    "123456",
+		User: ts.TestUser,
+		SMS: hooks.SMS{
+			OTP: "123456",
+		},
 	}
 	testURL := "http://localhost:54321/functions/v1/custom-sms-sender"
 	ts.Config.Hook.SendSMS.URI = testURL
@@ -172,12 +184,10 @@ func (ts *HooksTestSuite) TestShouldReturnErrorForNonJSONContentType() {
 		Reply(http.StatusOK).
 		SetHeader("content-type", "text/plain")
 
-	var output hooks.SendSMSOutput
-
 	req, err := http.NewRequest("POST", "http://localhost:9999/otp", nil)
 	require.NoError(ts.T(), err)
 
-	_, err = ts.API.runHTTPHook(req, ts.Config.Hook.SendSMS, &input, &output)
+	_, err = ts.API.runHTTPHook(req, ts.Config.Hook.SendSMS, &input)
 	require.Error(ts.T(), err, "Expected an error due to wrong content type")
 	require.Contains(ts.T(), err.Error(), "Invalid JSON response.")
 

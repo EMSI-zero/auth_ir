@@ -145,7 +145,10 @@ func (a *API) ResourceOwnerPasswordGrant(ctx context.Context, w http.ResponseWri
 		return oauthError("invalid_grant", InvalidLoginMessage)
 	}
 
-	isValidPassword := user.Authenticate(ctx, params.Password)
+	isValidPassword, shouldReEncrypt, err := user.Authenticate(ctx, params.Password, config.Security.DBEncryption.DecryptionKeys, config.Security.DBEncryption.Encrypt, config.Security.DBEncryption.EncryptionKeyID)
+	if err != nil {
+		return err
+	}
 
 	var weakPasswordError *WeakPasswordError
 	if isValidPassword {
@@ -153,7 +156,21 @@ func (a *API) ResourceOwnerPasswordGrant(ctx context.Context, w http.ResponseWri
 			if wpe, ok := err.(*WeakPasswordError); ok {
 				weakPasswordError = wpe
 			} else {
-				observability.GetLogEntry(r).WithError(err).Warn("Password strength check on sign-in failed")
+				observability.GetLogEntry(r).Entry.WithError(err).Warn("Password strength check on sign-in failed")
+			}
+		}
+
+		if shouldReEncrypt {
+			if err := user.SetPassword(ctx, params.Password, true, config.Security.DBEncryption.EncryptionKeyID, config.Security.DBEncryption.EncryptionKey); err != nil {
+				return err
+			}
+
+			// directly change this in the database without
+			// calling user.UpdatePassword() because this
+			// is not a password change, just encryption
+			// change in the database
+			if err := db.UpdateOnly(user, "encrypted_password"); err != nil {
+				return err
 			}
 		}
 	}

@@ -2,7 +2,6 @@ package api
 
 import (
 	"bytes"
-	"context"
 	"net/http"
 	"regexp"
 	"strings"
@@ -44,7 +43,7 @@ func formatPhoneNumber(phone string) string {
 }
 
 // sendPhoneConfirmation sends an otp to the user's phone number
-func (a *API) sendPhoneConfirmation(ctx context.Context, r *http.Request, tx *storage.Connection, user *models.User, phone, otpType string, smsProvider sms_provider.SmsProvider, channel string) (string, error) {
+func (a *API) sendPhoneConfirmation(r *http.Request, tx *storage.Connection, user *models.User, phone, otpType string, smsProvider sms_provider.SmsProvider, channel string) (string, error) {
 	config := a.config
 
 	var token *string
@@ -95,11 +94,14 @@ func (a *API) sendPhoneConfirmation(ctx context.Context, r *http.Request, tx *st
 		if err != nil {
 			return "", err
 		}
-		if config.Hook.SendSMS.Enabled {
+
+		// Hook should only be called if SMS autoconfirm is disabled
+		if !config.Sms.Autoconfirm && config.Hook.SendSMS.Enabled {
 			input := hooks.SendSMSInput{
-				UserID: user.ID,
-				Phone:  user.Phone.String(),
-				OTP:    otp,
+				User: user,
+				SMS: hooks.SMS{
+					OTP: otp,
+				},
 			}
 			output := hooks.SendSMSOutput{}
 			err := a.invokeHook(tx, r, &input, &output, a.config.Hook.SendSMS.URI)
@@ -107,7 +109,6 @@ func (a *API) sendPhoneConfirmation(ctx context.Context, r *http.Request, tx *st
 				return "", err
 			}
 		} else {
-
 			messageID, err = smsProvider.SendMessage(phone, message, channel, otp)
 			if err != nil {
 				return messageID, err
@@ -126,7 +127,26 @@ func (a *API) sendPhoneConfirmation(ctx context.Context, r *http.Request, tx *st
 		user.ReauthenticationSentAt = &now
 	}
 
-	return messageID, errors.Wrap(tx.UpdateOnly(user, includeFields...), "Database error updating user for confirmation")
+	if err := tx.UpdateOnly(user, includeFields...); err != nil {
+		return messageID, errors.Wrap(err, "Database error updating user for phone")
+	}
+
+	switch otpType {
+	case phoneConfirmationOtp:
+		if err := models.CreateOneTimeToken(tx, user.ID, user.GetPhone(), user.ConfirmationToken, models.ConfirmationToken); err != nil {
+			return messageID, errors.Wrap(err, "Database error creating confirmation token for phone")
+		}
+	case phoneChangeVerification:
+		if err := models.CreateOneTimeToken(tx, user.ID, user.PhoneChange, user.PhoneChangeToken, models.PhoneChangeToken); err != nil {
+			return messageID, errors.Wrap(err, "Database error creating phone change token")
+		}
+	case phoneReauthenticationOtp:
+		if err := models.CreateOneTimeToken(tx, user.ID, user.GetPhone(), user.ReauthenticationToken, models.ReauthenticationToken); err != nil {
+			return messageID, errors.Wrap(err, "Database error creating reauthentication token for phone")
+		}
+	}
+
+	return messageID, nil
 }
 
 func generateSMSFromTemplate(SMSTemplate *template.Template, otp string) (string, error) {

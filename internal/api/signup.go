@@ -2,7 +2,6 @@ package api
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 	"time"
 
@@ -246,9 +245,7 @@ func (a *API) Signup(w http.ResponseWriter, r *http.Request) error {
 				}
 				if terr = a.sendConfirmation(r, tx, user, flowType); terr != nil {
 					if errors.Is(terr, MaxFrequencyLimitError) {
-						now := time.Now()
-						left := user.ConfirmationSentAt.Add(config.SMTP.MaxFrequency).Sub(now) / time.Second
-						return tooManyRequestsError(ErrorCodeOverEmailSendRateLimit, fmt.Sprintf("For security purposes, you can only request this after %d seconds.", left))
+						return tooManyRequestsError(ErrorCodeOverEmailSendRateLimit, generateFrequencyLimitErrorMessage(user.ConfirmationSentAt, config.SMTP.MaxFrequency))
 					}
 					return internalServerError("Error sending confirmation mail").WithInternalError(terr)
 				}
@@ -274,7 +271,7 @@ func (a *API) Signup(w http.ResponseWriter, r *http.Request) error {
 				if terr != nil {
 					return internalServerError("Unable to get SMS provider").WithInternalError(terr)
 				}
-				if _, terr := a.sendPhoneConfirmation(ctx, r, tx, user, params.Phone, phoneConfirmationOtp, smsProvider, params.Channel); terr != nil {
+				if _, terr := a.sendPhoneConfirmation(r, tx, user, params.Phone, phoneConfirmationOtp, smsProvider, params.Channel); terr != nil {
 					return unprocessableEntityError(ErrorCodeSMSSendFailed, "Error sending confirmation sms: %v", terr).WithInternalError(terr)
 				}
 			}

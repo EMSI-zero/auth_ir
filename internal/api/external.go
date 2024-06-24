@@ -71,7 +71,7 @@ func (a *API) GetExternalProviderRedirectURL(w http.ResponseWriter, r *http.Requ
 	}
 
 	redirectURL := utilities.GetReferrer(r, config)
-	log := observability.GetLogEntry(r)
+	log := observability.GetLogEntry(r).Entry
 	log.WithField("provider", providerType).Info("Redirecting to external provider")
 	if err := validatePKCEParams(codeChallengeMethod, codeChallenge); err != nil {
 		return "", err
@@ -295,6 +295,10 @@ func (a *API) createAccountFromExternalIdentity(tx *storage.Connection, r *http.
 		user = decision.User
 
 		if identity, terr = a.createNewIdentity(tx, user, providerType, identityData); terr != nil {
+			return nil, terr
+		}
+
+		if terr = user.UpdateUserMetaData(tx, identityData); terr != nil {
 			return nil, terr
 		}
 
@@ -554,6 +558,8 @@ func (a *API) Provider(ctx context.Context, name string, scopes string) (provide
 		return provider.NewSpotifyProvider(config.External.Spotify, scopes)
 	case "slack":
 		return provider.NewSlackProvider(config.External.Slack, scopes)
+	case "slack_oidc":
+		return provider.NewSlackOIDCProvider(config.External.SlackOIDC, scopes)
 	case "twitch":
 		return provider.NewTwitchProvider(config.External.Twitch, scopes)
 	case "twitter":
@@ -569,8 +575,8 @@ func (a *API) Provider(ctx context.Context, name string, scopes string) (provide
 
 func (a *API) redirectErrors(handler apiHandler, w http.ResponseWriter, r *http.Request, u *url.URL) {
 	ctx := r.Context()
-	log := observability.GetLogEntry(r)
-	errorID := getRequestID(ctx)
+	log := observability.GetLogEntry(r).Entry
+	errorID := utilities.GetRequestID(ctx)
 	err := handler(w, r)
 	if err != nil {
 		q := getErrorQueryString(err, errorID, log, u.Query())
