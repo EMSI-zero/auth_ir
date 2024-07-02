@@ -15,10 +15,10 @@ RUN make deps
 COPY . /go/src/github.com/emsi-zero/auth_ir
 
 # Make sure you change the RELEASE_VERSION value before publishing an image.
-RUN RELEASE_VERSION=unspecified make build
+RUN RELEASE_VERSION=v0.0.1
 
 FROM alpine:3.20
-RUN adduser -D -u 1000 supabase
+RUN adduser -D -u 1000 myshop
 
 RUN apk add --no-cache ca-certificates
 COPY --from=build /go/src/github.com/emsi-zero/auth_ir/auth_ir /usr/local/bin/auth_ir
@@ -27,6 +27,6 @@ RUN ln -s /usr/local/bin/auth_ir /usr/local/bin/gotrue
 
 ENV GOTRUE_DB_MIGRATIONS_PATH /usr/local/etc/auth_ir/migrations
 
-USER supabase
+USER myshop
 CMD ["auth_ir"]
 
