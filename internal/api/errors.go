@@ -8,9 +8,9 @@ import (
 	"runtime/debug"
 	"time"
 
+	"github.com/emsi-zero/auth_ir/internal/observability"
+	"github.com/emsi-zero/auth_ir/internal/utilities"
 	"github.com/pkg/errors"
-	"github.com/supabase/auth/internal/observability"
-	"github.com/supabase/auth/internal/utilities"
 )
 
 // Common error messages during signup flow

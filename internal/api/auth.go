@@ -6,10 +6,10 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/emsi-zero/auth_ir/internal/models"
+	"github.com/emsi-zero/auth_ir/internal/storage"
 	"github.com/gofrs/uuid"
 	jwt "github.com/golang-jwt/jwt"
-	"github.com/supabase/auth/internal/models"
-	"github.com/supabase/auth/internal/storage"
 )
 
 // requireAuthentication checks incoming requests for tokens presented using the Authorization header

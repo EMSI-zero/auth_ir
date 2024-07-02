@@ -7,15 +7,15 @@ import (
 
 	"github.com/didip/tollbooth/v5"
 	"github.com/didip/tollbooth/v5/limiter"
+	"github.com/emsi-zero/auth_ir/internal/conf"
+	"github.com/emsi-zero/auth_ir/internal/mailer"
+	"github.com/emsi-zero/auth_ir/internal/models"
+	"github.com/emsi-zero/auth_ir/internal/observability"
+	"github.com/emsi-zero/auth_ir/internal/storage"
+	"github.com/emsi-zero/auth_ir/internal/utilities"
 	"github.com/rs/cors"
 	"github.com/sebest/xff"
 	"github.com/sirupsen/logrus"
-	"github.com/supabase/auth/internal/conf"
-	"github.com/supabase/auth/internal/mailer"
-	"github.com/supabase/auth/internal/models"
-	"github.com/supabase/auth/internal/observability"
-	"github.com/supabase/auth/internal/storage"
-	"github.com/supabase/auth/internal/utilities"
 	"github.com/supabase/hibp"
 )
 

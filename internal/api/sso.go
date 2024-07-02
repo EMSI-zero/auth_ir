@@ -4,9 +4,9 @@ import (
 	"net/http"
 
 	"github.com/crewjam/saml"
+	"github.com/emsi-zero/auth_ir/internal/models"
+	"github.com/emsi-zero/auth_ir/internal/storage"
 	"github.com/gofrs/uuid"
-	"github.com/supabase/auth/internal/models"
-	"github.com/supabase/auth/internal/storage"
 )
 
 type SingleSignOnParams struct {

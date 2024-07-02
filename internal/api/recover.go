@@ -4,8 +4,8 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/supabase/auth/internal/models"
-	"github.com/supabase/auth/internal/storage"
+	"github.com/emsi-zero/auth_ir/internal/models"
+	"github.com/emsi-zero/auth_ir/internal/storage"
 )
 
 // RecoverParams holds the parameters for a password recovery request

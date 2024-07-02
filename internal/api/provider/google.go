@@ -5,8 +5,8 @@ import (
 	"strings"
 
 	"github.com/coreos/go-oidc/v3/oidc"
+	"github.com/emsi-zero/auth_ir/internal/conf"
 	"github.com/sirupsen/logrus"
-	"github.com/supabase/auth/internal/conf"
 	"golang.org/x/oauth2"
 )
 

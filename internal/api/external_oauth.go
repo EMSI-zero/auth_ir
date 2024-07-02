@@ -6,10 +6,10 @@ import (
 	"net/http"
 	"net/url"
 
+	"github.com/emsi-zero/auth_ir/internal/api/provider"
+	"github.com/emsi-zero/auth_ir/internal/observability"
 	"github.com/mrjones/oauth"
 	"github.com/sirupsen/logrus"
-	"github.com/supabase/auth/internal/api/provider"
-	"github.com/supabase/auth/internal/observability"
 )
 
 // OAuthProviderData contains the userData and token returned by the oauth provider

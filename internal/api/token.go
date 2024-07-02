@@ -14,12 +14,12 @@ import (
 	"github.com/golang-jwt/jwt"
 	"github.com/xeipuuv/gojsonschema"
 
-	"github.com/supabase/auth/internal/conf"
-	"github.com/supabase/auth/internal/hooks"
-	"github.com/supabase/auth/internal/metering"
-	"github.com/supabase/auth/internal/models"
-	"github.com/supabase/auth/internal/observability"
-	"github.com/supabase/auth/internal/storage"
+	"github.com/emsi-zero/auth_ir/internal/conf"
+	"github.com/emsi-zero/auth_ir/internal/hooks"
+	"github.com/emsi-zero/auth_ir/internal/metering"
+	"github.com/emsi-zero/auth_ir/internal/models"
+	"github.com/emsi-zero/auth_ir/internal/observability"
+	"github.com/emsi-zero/auth_ir/internal/storage"
 )
 
 // AccessTokenClaims is a struct thats used for JWT claims

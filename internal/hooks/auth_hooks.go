@@ -1,10 +1,10 @@
 package hooks
 
 import (
+	"github.com/emsi-zero/auth_ir/internal/mailer"
+	"github.com/emsi-zero/auth_ir/internal/models"
 	"github.com/gofrs/uuid"
 	"github.com/golang-jwt/jwt"
-	"github.com/supabase/auth/internal/mailer"
-	"github.com/supabase/auth/internal/models"
 )
 
 type HookType string

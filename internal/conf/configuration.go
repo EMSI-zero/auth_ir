@@ -402,8 +402,9 @@ type VonageProviderConfiguration struct {
 }
 
 type KavenegarProviderConfiguration struct {
-	ApiKey string `json:"api_key" split_words:"true"`
-	Sender string `json:"sender" split_words:"true"`
+	ApiKey         string `json:"api_key" split_words:"true"`
+	Sender         string `json:"sender" split_words:"true"`
+	OTPTemplateKey string `json:"otp_template_key" split_words:"true"`
 }
 
 type CaptchaConfiguration struct {
@@ -919,12 +920,6 @@ func (t *VonageProviderConfiguration) Validate() error {
 func (t *KavenegarProviderConfiguration) Validate() error {
 	if t.ApiKey == "" {
 		return errors.New("missing Kavenegar API key")
-	}
-	if t.ApiKey == "" {
-		return errors.New("missing Kavenegar API secret")
-	}
-	if t.Sender == "" {
-		return errors.New("missing Kavenegar 'from' parameter")
 	}
 	return nil
 }

@@ -8,8 +8,8 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/supabase/auth/internal/conf"
-	"github.com/supabase/auth/internal/utilities"
+	"github.com/emsi-zero/auth_ir/internal/conf"
+	"github.com/emsi-zero/auth_ir/internal/utilities"
 )
 
 const (

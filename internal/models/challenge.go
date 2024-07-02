@@ -2,9 +2,9 @@ package models
 
 import (
 	"database/sql"
+	"github.com/emsi-zero/auth_ir/internal/storage"
 	"github.com/gofrs/uuid"
 	"github.com/pkg/errors"
-	"github.com/supabase/auth/internal/storage"
 	"time"
 )
 

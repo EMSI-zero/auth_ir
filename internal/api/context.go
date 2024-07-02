@@ -4,8 +4,8 @@ import (
 	"context"
 	"net/url"
 
+	"github.com/emsi-zero/auth_ir/internal/models"
 	jwt "github.com/golang-jwt/jwt"
-	"github.com/supabase/auth/internal/models"
 )
 
 type contextKey string

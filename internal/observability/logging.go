@@ -6,10 +6,10 @@ import (
 	"time"
 
 	"github.com/bombsimon/logrusr/v3"
+	"github.com/emsi-zero/auth_ir/internal/conf"
 	"github.com/gobuffalo/pop/v6"
 	"github.com/gobuffalo/pop/v6/logging"
 	"github.com/sirupsen/logrus"
-	"github.com/supabase/auth/internal/conf"
 	"go.opentelemetry.io/otel"
 )
 

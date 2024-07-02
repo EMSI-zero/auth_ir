@@ -4,12 +4,12 @@ import (
 	"context"
 	"net"
 
+	"github.com/emsi-zero/auth_ir/internal/api"
+	"github.com/emsi-zero/auth_ir/internal/conf"
+	"github.com/emsi-zero/auth_ir/internal/storage"
+	"github.com/emsi-zero/auth_ir/internal/utilities"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
-	"github.com/supabase/auth/internal/api"
-	"github.com/supabase/auth/internal/conf"
-	"github.com/supabase/auth/internal/storage"
-	"github.com/supabase/auth/internal/utilities"
 )
 
 var serveCmd = cobra.Command{

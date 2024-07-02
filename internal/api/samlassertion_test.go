@@ -6,8 +6,8 @@ import (
 	"encoding/xml"
 
 	"github.com/crewjam/saml"
+	"github.com/emsi-zero/auth_ir/internal/models"
 	"github.com/stretchr/testify/require"
-	"github.com/supabase/auth/internal/models"
 )
 
 func TestSAMLAssertionUserID(t *tst.T) {

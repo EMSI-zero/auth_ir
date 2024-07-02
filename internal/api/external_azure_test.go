@@ -15,8 +15,8 @@ import (
 	"time"
 
 	"github.com/coreos/go-oidc/v3/oidc"
+	"github.com/emsi-zero/auth_ir/internal/api/provider"
 	jwt "github.com/golang-jwt/jwt"
-	"github.com/supabase/auth/internal/api/provider"
 )
 
 const (

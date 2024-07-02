@@ -6,10 +6,10 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/supabase/auth/internal/metering"
-	"github.com/supabase/auth/internal/models"
-	"github.com/supabase/auth/internal/storage"
-	"github.com/supabase/auth/internal/utilities"
+	"github.com/emsi-zero/auth_ir/internal/metering"
+	"github.com/emsi-zero/auth_ir/internal/models"
+	"github.com/emsi-zero/auth_ir/internal/storage"
+	"github.com/emsi-zero/auth_ir/internal/utilities"
 )
 
 const retryLoopDuration = 5.0

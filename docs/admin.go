@@ -2,7 +2,7 @@
 package docs
 
 import (
-	"github.com/supabase/auth/internal/api"
+	"github.com/emsi-zero/auth_ir/internal/api"
 )
 
 // swagger:route GET /admin/users admin admin-list-users

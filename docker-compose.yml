@@ -2,8 +2,6 @@ version: "3.9"
 services:
   auth:
     container_name: auth
-    depends_on:
-      - postgres
     build:
       context: ./
       dockerfile: Dockerfile.dev
@@ -15,7 +13,7 @@ services:
     volumes:
       - ./:/go/src/github.com/emsi-zero/auth_ir
     command: CompileDaemon --build="make build" --directory=/go/src/github.com/emsi-zero/auth_ir --recursive=true -pattern="(.+\.go|.+\.env)" -exclude=auth -exclude=auth-arm64 -exclude=.env --command="/go/src/github.com/emsi-zero/auth_ir/auth_ir -c=.env.docker"
-  postgres:
+postgres:
     build:
       context: .
       dockerfile: Dockerfile.postgres.dev

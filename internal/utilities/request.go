@@ -8,7 +8,7 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/supabase/auth/internal/conf"
+	"github.com/emsi-zero/auth_ir/internal/conf"
 )
 
 // GetIPAddress returns the real IP address of the HTTP request. It parses the

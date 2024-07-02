@@ -10,12 +10,12 @@ import (
 
 	"github.com/crewjam/saml"
 	"github.com/crewjam/saml/samlsp"
+	"github.com/emsi-zero/auth_ir/internal/models"
+	"github.com/emsi-zero/auth_ir/internal/observability"
+	"github.com/emsi-zero/auth_ir/internal/storage"
+	"github.com/emsi-zero/auth_ir/internal/utilities"
 	"github.com/go-chi/chi/v5"
 	"github.com/gofrs/uuid"
-	"github.com/supabase/auth/internal/models"
-	"github.com/supabase/auth/internal/observability"
-	"github.com/supabase/auth/internal/storage"
-	"github.com/supabase/auth/internal/utilities"
 )
 
 // loadSSOProvider looks for an idp_id parameter in the URL route and loads the SSO provider

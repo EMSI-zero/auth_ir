@@ -5,12 +5,12 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/emsi-zero/auth_ir/internal/crypto"
+	"github.com/emsi-zero/auth_ir/internal/storage"
+	"github.com/emsi-zero/auth_ir/internal/utilities"
 	"github.com/gobuffalo/pop/v6"
 	"github.com/gofrs/uuid"
 	"github.com/pkg/errors"
-	"github.com/supabase/auth/internal/crypto"
-	"github.com/supabase/auth/internal/storage"
-	"github.com/supabase/auth/internal/utilities"
 )
 
 // RefreshToken is the database model for refresh tokens.

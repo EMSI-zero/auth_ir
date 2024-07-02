@@ -3,9 +3,9 @@ package models
 import (
 	"strings"
 
-	"github.com/supabase/auth/internal/api/provider"
-	"github.com/supabase/auth/internal/conf"
-	"github.com/supabase/auth/internal/storage"
+	"github.com/emsi-zero/auth_ir/internal/api/provider"
+	"github.com/emsi-zero/auth_ir/internal/conf"
+	"github.com/emsi-zero/auth_ir/internal/storage"
 )
 
 // GetAccountLinkingDomain returns a string that describes the account linking

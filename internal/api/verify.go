@@ -9,16 +9,16 @@ import (
 	"strings"
 	"time"
 
+	"github.com/emsi-zero/auth_ir/internal/api/provider"
+	"github.com/emsi-zero/auth_ir/internal/api/sms_provider"
+	"github.com/emsi-zero/auth_ir/internal/crypto"
+	mail "github.com/emsi-zero/auth_ir/internal/mailer"
+	"github.com/emsi-zero/auth_ir/internal/models"
+	"github.com/emsi-zero/auth_ir/internal/observability"
+	"github.com/emsi-zero/auth_ir/internal/storage"
+	"github.com/emsi-zero/auth_ir/internal/utilities"
 	"github.com/fatih/structs"
 	"github.com/sethvargo/go-password/password"
-	"github.com/supabase/auth/internal/api/provider"
-	"github.com/supabase/auth/internal/api/sms_provider"
-	"github.com/supabase/auth/internal/crypto"
-	mail "github.com/supabase/auth/internal/mailer"
-	"github.com/supabase/auth/internal/models"
-	"github.com/supabase/auth/internal/observability"
-	"github.com/supabase/auth/internal/storage"
-	"github.com/supabase/auth/internal/utilities"
 )
 
 const (

@@ -6,7 +6,7 @@ import (
 	"net/url"
 	"strconv"
 
-	"github.com/supabase/auth/internal/models"
+	"github.com/emsi-zero/auth_ir/internal/models"
 )
 
 const defaultPerPage = 50

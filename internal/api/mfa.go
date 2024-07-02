@@ -9,14 +9,14 @@ import (
 	"github.com/aaronarduino/goqrsvg"
 	svg "github.com/ajstarks/svgo"
 	"github.com/boombuler/barcode/qr"
+	"github.com/emsi-zero/auth_ir/internal/crypto"
+	"github.com/emsi-zero/auth_ir/internal/hooks"
+	"github.com/emsi-zero/auth_ir/internal/metering"
+	"github.com/emsi-zero/auth_ir/internal/models"
+	"github.com/emsi-zero/auth_ir/internal/storage"
+	"github.com/emsi-zero/auth_ir/internal/utilities"
 	"github.com/gofrs/uuid"
 	"github.com/pquerna/otp/totp"
-	"github.com/supabase/auth/internal/crypto"
-	"github.com/supabase/auth/internal/hooks"
-	"github.com/supabase/auth/internal/metering"
-	"github.com/supabase/auth/internal/models"
-	"github.com/supabase/auth/internal/storage"
-	"github.com/supabase/auth/internal/utilities"
 )
 
 const DefaultQRSize = 3

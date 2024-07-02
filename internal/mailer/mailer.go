@@ -5,10 +5,10 @@ import (
 	"net/http"
 	"net/url"
 
+	"github.com/emsi-zero/auth_ir/internal/conf"
+	"github.com/emsi-zero/auth_ir/internal/models"
 	"github.com/gofrs/uuid"
 	"github.com/sirupsen/logrus"
-	"github.com/supabase/auth/internal/conf"
-	"github.com/supabase/auth/internal/models"
 	"github.com/supabase/mailme"
 	"gopkg.in/gomail.v2"
 )

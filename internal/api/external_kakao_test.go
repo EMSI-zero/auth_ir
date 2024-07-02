@@ -8,10 +8,10 @@ import (
 	"net/url"
 	"time"
 
+	"github.com/emsi-zero/auth_ir/internal/api/provider"
+	"github.com/emsi-zero/auth_ir/internal/models"
 	jwt "github.com/golang-jwt/jwt"
 	"github.com/stretchr/testify/require"
-	"github.com/supabase/auth/internal/api/provider"
-	"github.com/supabase/auth/internal/models"
 )
 
 func (ts *ExternalTestSuite) TestSignupExternalKakao() {

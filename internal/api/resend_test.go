@@ -8,11 +8,11 @@ import (
 	"testing"
 	"time"
 
+	"github.com/emsi-zero/auth_ir/internal/conf"
+	mail "github.com/emsi-zero/auth_ir/internal/mailer"
+	"github.com/emsi-zero/auth_ir/internal/models"
 	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
-	"github.com/supabase/auth/internal/conf"
-	mail "github.com/supabase/auth/internal/mailer"
-	"github.com/supabase/auth/internal/models"
 )
 
 type ResendTestSuite struct {

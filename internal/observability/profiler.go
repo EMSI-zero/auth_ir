@@ -8,8 +8,8 @@ import (
 	"net/http"
 	"net/http/pprof"
 
+	"github.com/emsi-zero/auth_ir/internal/conf"
 	"github.com/sirupsen/logrus"
-	"github.com/supabase/auth/internal/conf"
 )
 
 func ConfigureProfiler(ctx context.Context, pc *conf.ProfilerConfig) error {

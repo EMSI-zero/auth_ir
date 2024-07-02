@@ -7,10 +7,10 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/emsi-zero/auth_ir/cmd"
+	"github.com/emsi-zero/auth_ir/internal/api"
+	"github.com/emsi-zero/auth_ir/internal/observability"
 	"github.com/sirupsen/logrus"
-	"github.com/supabase/auth/cmd"
-	"github.com/supabase/auth/internal/api"
-	"github.com/supabase/auth/internal/observability"
 )
 
 func init() {

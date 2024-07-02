@@ -5,11 +5,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/emsi-zero/auth_ir/internal/conf"
+	"github.com/emsi-zero/auth_ir/internal/utilities"
 	chimiddleware "github.com/go-chi/chi/v5/middleware"
 	"github.com/gofrs/uuid"
 	"github.com/sirupsen/logrus"
-	"github.com/supabase/auth/internal/conf"
-	"github.com/supabase/auth/internal/utilities"
 )
 
 func AddRequestID(globalConfig *conf.GlobalConfiguration) func(next http.Handler) http.Handler {

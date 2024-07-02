@@ -6,9 +6,9 @@ import (
 	"sync"
 	"time"
 
+	"github.com/emsi-zero/auth_ir/internal/conf"
+	"github.com/emsi-zero/auth_ir/internal/utilities"
 	"github.com/sirupsen/logrus"
-	"github.com/supabase/auth/internal/conf"
-	"github.com/supabase/auth/internal/utilities"
 
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/attribute"

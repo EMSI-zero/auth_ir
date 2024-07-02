@@ -8,13 +8,13 @@ import (
 	"text/template"
 	"time"
 
-	"github.com/supabase/auth/internal/hooks"
+	"github.com/emsi-zero/auth_ir/internal/hooks"
 
+	"github.com/emsi-zero/auth_ir/internal/api/sms_provider"
+	"github.com/emsi-zero/auth_ir/internal/crypto"
+	"github.com/emsi-zero/auth_ir/internal/models"
+	"github.com/emsi-zero/auth_ir/internal/storage"
 	"github.com/pkg/errors"
-	"github.com/supabase/auth/internal/api/sms_provider"
-	"github.com/supabase/auth/internal/crypto"
-	"github.com/supabase/auth/internal/models"
-	"github.com/supabase/auth/internal/storage"
 )
 
 var e164Format = regexp.MustCompile("^[1-9][0-9]{1,14}$")

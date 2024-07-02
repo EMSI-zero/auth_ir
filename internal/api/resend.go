@@ -5,11 +5,11 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/supabase/auth/internal/api/sms_provider"
-	"github.com/supabase/auth/internal/conf"
-	mail "github.com/supabase/auth/internal/mailer"
-	"github.com/supabase/auth/internal/models"
-	"github.com/supabase/auth/internal/storage"
+	"github.com/emsi-zero/auth_ir/internal/api/sms_provider"
+	"github.com/emsi-zero/auth_ir/internal/conf"
+	mail "github.com/emsi-zero/auth_ir/internal/mailer"
+	"github.com/emsi-zero/auth_ir/internal/models"
+	"github.com/emsi-zero/auth_ir/internal/storage"
 )
 
 // ResendConfirmationParams holds the parameters for a resend request

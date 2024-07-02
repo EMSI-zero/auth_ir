@@ -14,16 +14,16 @@ import (
 	"strings"
 	"time"
 
+	"github.com/emsi-zero/auth_ir/internal/observability"
 	"github.com/gofrs/uuid"
-	"github.com/supabase/auth/internal/observability"
 
-	"github.com/supabase/auth/internal/conf"
-	"github.com/supabase/auth/internal/crypto"
+	"github.com/emsi-zero/auth_ir/internal/conf"
+	"github.com/emsi-zero/auth_ir/internal/crypto"
 
+	"github.com/emsi-zero/auth_ir/internal/hooks"
 	"github.com/sirupsen/logrus"
-	"github.com/supabase/auth/internal/hooks"
 
-	"github.com/supabase/auth/internal/storage"
+	"github.com/emsi-zero/auth_ir/internal/storage"
 )
 
 const (

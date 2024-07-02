@@ -10,7 +10,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/supabase/auth/internal/observability"
+	"github.com/emsi-zero/auth_ir/internal/observability"
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/metric"
 
