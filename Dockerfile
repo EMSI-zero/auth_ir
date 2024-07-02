@@ -15,7 +15,7 @@ RUN make deps
 COPY . /go/src/github.com/emsi-zero/auth_ir
 
 # Make sure you change the RELEASE_VERSION value before publishing an image.
-RUN RELEASE_VERSION=v0.0.1
+RUN RELEASE_VERSION=v0.0.1 make build
 
 FROM alpine:3.20
 RUN adduser -D -u 1000 myshop
