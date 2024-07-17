@@ -376,7 +376,6 @@ func (a *API) generateAccessToken(r *http.Request, tx *storage.Connection, user 
 		token.Header["kid"] = config.JWT.KeyID
 	}
 
-	log.Printf(config.JWT.Secret)
 	signed, err := token.SignedString([]byte(config.JWT.Secret))
 	if err != nil {
 		return "", 0, err
